@@ -43,8 +43,74 @@ const followersArray = [];
     <p>Bio: {users bio}</p>
   </div>
 </div>
-
 */
+
+axios.get('https://api.github.com/users/kimly143')
+.then((response) => {
+  console.log(response.data);
+  //const kimObj = response.data;
+  const k143 = createCard(response.data);
+  document.querySelector('.cards').appendChild(k143);
+
+})
+.catch((error) => {
+  console.error(error);
+})
+
+//create card
+const createCard = (d) => {
+  const eCard = document.createElement('div');
+  eCard.classList.add('card');
+
+  const gitImg = document.createElement('img');
+  gitImg.src = d.avatar_url;
+  eCard.appendChild(gitImg);
+
+  const cardInfo = document.createElement('div');
+  cardInfo.classList.add('card-info');
+  eCard.appendChild(cardInfo);
+
+  const name = document.createElement('h3');
+  cardInfo.classList.add('name');
+  name.textContent = d.name;
+  cardInfo.appendChild(name);
+
+  const location = document.createElement('p');
+  location.classList.add('name');
+  location.textContent = d.login;
+  cardInfo.appendChild(location);
+
+  const userName = document.createElement('p');
+  userName.classList.add('name');
+  userName.textContent = `Location ${d.location}`;
+  cardInfo.appendChild(userName);
+
+  
+
+  const profile = document.createElement('p');
+  const profileText = document.createTextNode('Profile: ');
+  profile.appendChild(profileText);
+
+  const anchor = document.createElement('a');
+  anchor.href = d.url;
+  anchor.textContent = d.url;
+  profile.appendChild(anchor);
+  cardInfo.appendChild(profile);
+
+  const follower = document.createElement('p');
+  follower.textContent = `Followers: ${d.followers}`;
+  cardInfo.appendChild(follower);
+
+  const following = document.createElement('p');
+  following.textContent = `Following : ${d.following}`;
+  cardInfo.appendChild(following);
+
+  const userBio = document.createElement('p');
+  userBio.textContent = `Bio: ${d.bio}`;
+  cardInfo.appendChild(userBio);
+
+  return eCard;
+}
 
 /* List of LS Instructors Github username's: 
   tetondan
